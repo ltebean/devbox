@@ -1,0 +1,23 @@
+- name: install the mysql rpm from a remote repo
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+
+- name: copy mysql.repo
+  template: src=mysql-community.repo dest=/etc/yum.repos.d/mysql-community.repo
+
+- name: install mysql 
+  yum: name=mysql-server state=latest
+
+- name: copy conf
+  template: src=my.cnf dest=/etc/my.cnf
+
+- name: start mysql
+  service: name=mysqld state=started
+
+- name: install the Python MySQLB module
+  yum: name=MySQL-python state=latest
+
+- name: add user
+  mysql_user: name=dev password=111111 host=% priv=*.*:ALL state=present
+
+- name: add user
+  mysql_user: name=dev password=111111 host=localhost priv=*.*:ALL state=present

@@ -1,0 +1,5 @@
+- name: install easy_install
+  yum: name=python-setuptools state=latest
+
+- name: install
+  easy_install: name=supervisor state=latest

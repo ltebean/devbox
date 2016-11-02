@@ -1,0 +1,13 @@
+- hosts: all
+  remote_user: root
+  become: yes
+  roles:
+    # - { role: git }
+    # - { role: nginx }
+    - { role: java }
+    - { role: supervisor }
+    - { role: mysql }
+    # - { role: nodejs }
+    # - { role: mongodb }
+    # - { role: redis }
+

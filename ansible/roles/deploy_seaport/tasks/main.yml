@@ -1,0 +1,24 @@
+- name: create app root directory
+  file: path=/data/app state=directory
+
+- name: clone repo
+  git: repo=https://github.com/ltebean/seaport-server.git dest=/data/repo/seaport update=yes
+
+- name: package
+  raw: cd /data/repo/seaport && mvn package
+
+
+- name: copy jar
+  raw: cp /data/repo/seaport/target/seaport-server-1.0-SNAPSHOT.jar /data/app/seaport-server.jar
+
+# - name: copy
+#   copy: src=~/.m2/repository/io/ltebean/seaport-server/1.0-SNAPSHOT/seaport-server-1.0-SNAPSHOT.jar dest=/data/app/seaport-server.jar
+
+- name: copy supervisor conf
+  template: src=supervisord.conf dest=/etc/supervisord.conf mode=755
+
+- name: supervisor reread
+  raw: supervisorctl reread
+
+- name: restart
+  raw: supervisorctl restart seaport

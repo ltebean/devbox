@@ -1,0 +1,35 @@
+- name: install the latest version of gcc
+  yum: name=gcc state=latest
+
+- name: install the latest version of gcc-c++
+  yum: name=gcc-c++ state=latest
+
+- name: install the latest version of openssl
+  yum: name=openssl state=latest
+
+- name: install the latest version of openssl-devel
+  yum: name=openssl-devel state=latest
+
+- name: install the latest version of pcre
+  yum: name=pcre state=latest
+
+- name: install the latest version of pcre-devel
+  yum: name=pcre-devel state=latest
+
+- name: install the latest version of zlib
+  yum: name=zlib state=latest
+
+- name: copy nginx install script
+  template: src=nginx.install.sh dest=/tmp/nginx.install.sh mode=755
+
+- name: install nginx from source
+  raw: sh /tmp/nginx.install.sh
+
+- name: add nginx init.d
+  template: src=nginx.init.d dest=/etc/init.d/nginx mode=755
+
+- name: copy nginx.conf
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: restart nginx
+  service: name=nginx state=restarted
